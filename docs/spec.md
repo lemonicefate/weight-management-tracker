@@ -128,6 +128,8 @@ States:
 
 Draft fields autosave after changes.
 
+Edits that cannot be sent remain visibly unsaved in the current browser page. When the connection returns, valid pending Draft and medication changes are retried. A version conflict requires an explicit reload/reconcile and is never retried against a newer version automatically.
+
 The intended behavior is that accidental Back navigation, tab closing or browser closing does not discard previously entered fields.
 
 Returning to the Draft restores the saved content.

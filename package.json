@@ -1,0 +1,19 @@
+{
+  "name": "weight-management-tracker",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24.15.0"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "test": "node --test",
+    "test:browser": "node --test browser-tests/clinic-workflow.browser.js",
+    "migrate:hoanboy": "node scripts/migrate-hoanboy.js"
+  },
+  "devDependencies": {
+    "playwright": "^1.63.0"
+  }
+}

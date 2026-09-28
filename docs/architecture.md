@@ -39,6 +39,8 @@ Browser on clinic PC / authorized phone
 
 The application should be deployable on a dedicated or approved clinic Windows host. Exact process manager/container choice is an implementation decision.
 
+On Windows, the service identity and local Administrators must be the only principals with access to the NTFS data directory. Keep database files on local NTFS storage, not a network share. See [Windows host deployment](deployment/windows.md) for ACL and network setup.
+
 ## 3. Suggested module boundaries
 
 ### identity
@@ -191,8 +193,11 @@ Because the app handles identifiable clinic information:
 - logs avoid patient-identifying payloads where possible;
 - production secrets live outside Git;
 - backup files are protected;
+- the Windows data directory is protected by a restrictive NTFS ACL;
 - network access is limited to authorized clinic use;
 - TLS is preferred even on local networks when operationally feasible.
+
+Sessions use an HttpOnly, SameSite=Strict cookie and an opaque token whose SHA-256 digest is stored in SQLite. A session expires after 30 minutes without activity or 8 hours after creation, whichever comes first. Logout, account disablement, role change, password change and database restore revoke sessions. Production cookies require the Secure attribute.
 
 ## 11. Testing strategy
 
@@ -207,3 +212,13 @@ Prioritize:
 - backup/restore validation.
 
 Never use real patient data in automated tests.
+
+## 12. Initial implementation platform
+
+The initial implementation is a modular Node.js 24 application with a server-rendered static browser client, JSON APIs, and SQLite owned exclusively by the backend. Node.js 24.15 or newer is required because the implementation uses its built-in SQLite API and online backup support.
+
+The application has no browser-to-database path. Browser clients use same-origin APIs and an HttpOnly session cookie. SQLite is appropriate for one clinic and one application process; the backend serializes writes and applies Encounter revision checks. Reassess the database and runtime if measured clinic concurrency or data size outgrows this deployment shape.
+
+Runtime configuration is supplied through process environment or a local ignored `.env` file. Database files, encrypted backups, migration uploads and report assets are kept under the configured private data directory.
+
+Historical HOANBOY import is read-only. It matches Patients by the exact MRN string, preserves raw source payloads and saved report content, and records aggregate validation results. Adapter mappings start unverified; only evidence-backed mappings may feed body-composition trends.

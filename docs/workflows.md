@@ -34,6 +34,7 @@ Historical closed Episodes remain visible.
 4. If current, save and return next version.
 5. If stale, reject with conflict.
 6. UI tells user data changed elsewhere and reload/reconcile is required.
+7. Offline or retryable failures remain visibly unsaved. Valid pending changes retry after reconnection; stale-version conflicts stay locked until explicit reload/reconcile.
 
 Accidental browser Back/tab close does not intentionally discard successful autosaves.
 

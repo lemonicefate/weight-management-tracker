@@ -10,7 +10,27 @@
 
 ## Status
 
-目前為需求與架構定義階段。正式實作前以 `docs/spec.md`、`docs/architecture.md`、`docs/data-model.md`、`docs/workflows.md` 與 `docs/adr/` 為主要依據。
+The MVP is being implemented as a central Node.js application with a server-owned SQLite database. Confirmed behavior is defined by `docs/spec.md`, `docs/architecture.md`, `docs/data-model.md`, `docs/workflows.md` and `docs/adr/`.
+
+## Local operation
+
+Use Node.js 24.15 or newer. Copy `.env.example` to `.env`, set a one-time initial administrator username and password, then run:
+
+```text
+npm start
+```
+
+The first start creates the configured administrator. Bootstrap credentials are not stored in the database; the server clears them from its process environment after initialization. Remove them from `.env` and the host environment after startup. The database and local configuration stay outside Git.
+
+The application listens on 127.0.0.1 by default. For clinic network use, put it behind an approved TLS reverse proxy and bind it only to the host interface reachable by that proxy. Set `NODE_ENV=production` and `WMT_COOKIE_SECURE=true`; the application refuses to start in production without secure cookies. Do not expose the development server directly to the public internet.
+
+For a Windows clinic host, configure a dedicated service identity and restrict the local NTFS data directory to that identity and local Administrators. See [Windows host deployment](docs/deployment/windows.md).
+
+Run the server and domain suite with `npm test`. The tests use fictional records and isolated temporary databases. To run the browser suite, install dependencies and Chromium once with `npm ci` and `npx playwright install chromium`, then run `npm run test:browser`.
+
+For a source HOANBOY database, the administrator migration page accepts an operator-provided database file, creates a protected source backup, and reports aggregate import counts. The source database is never modified. Keep the old system read-only during validation.
+
+Follow [the HOANBOY cutover runbook](docs/migration/hoanboy-cutover.md) for source backup, validation and the one-registry cutover.
 
 ## Core concepts
 

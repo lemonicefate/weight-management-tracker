@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Weight Management Tracker</title>
+  <link rel="stylesheet" href="/style.css">
+  <script type="module" src="/app.js"></script>
+</head>
+<body>
+  <main id="login-view" class="login-shell" hidden>
+    <section class="login-card">
+      <p class="eyebrow">Clinic workflow</p>
+      <h1>Weight Management Tracker</h1>
+      <p class="muted">Sign in with your authorized clinic account.</p>
+      <form id="login-form" class="stack">
+        <label>Username<input name="username" autocomplete="username" required maxlength="64"></label>
+        <label>Password<input name="password" type="password" autocomplete="current-password" required></label>
+        <button class="primary" type="submit">Sign in</button>
+      </form>
+      <p id="login-error" class="form-error" role="alert"></p>
+    </section>
+  </main>
+
+  <div id="app-view" hidden>
+    <header class="topbar">
+      <div class="brand">
+        <button class="brand-mark" data-action="home" aria-label="Patient list">WM</button>
+        <div>
+          <strong>Weight Management Tracker</strong>
+          <span>Auxiliary clinic workflow · HIS remains the official record</span>
+        </div>
+      </div>
+      <div class="user-tools">
+        <span id="signed-in-user" class="user-badge"></span>
+        <button id="admin-nav" class="quiet" data-action="admin" hidden>Administration</button>
+        <button class="quiet" data-action="logout">Sign out</button>
+      </div>
+    </header>
+    <div id="notice" class="notice" role="status" hidden></div>
+    <main class="workspace">
+      <section id="patient-list-view"></section>
+      <section id="patient-view" hidden></section>
+      <section id="admin-view" hidden></section>
+    </main>
+  </div>
+</body>
+</html>
