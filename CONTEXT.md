@@ -95,3 +95,14 @@ It is distinct from a device-reported body-composition weight.
 ## Correction
 
 A post-completion change that preserves who changed the record, when it changed, and the previous value or version as required by the data model.
+
+## zh-TW user-interface terms
+
+These are display labels for the existing domain concepts. Localization must not change stored values, API codes or workflow behavior.
+
+- Patient: 病人.
+- Weight-loss Episode: 體重管理療程; use 療程 where the shorter label is clearer.
+- Encounter: 追蹤紀錄.
+- Body-composition measurement: 身體組成測量.
+- Primary body-composition measurement: 主要測量.
+- Residual dose: 手動輸入劑量; a dose entered manually instead of selected from the preset values.

@@ -5,10 +5,10 @@ import { startTestServer } from '../tests/helpers.js';
 
 async function signIn(page, baseUrl) {
   await page.goto(baseUrl);
-  await page.getByLabel('Username').fill('fictional-admin');
-  await page.getByLabel('Password').fill('Fictional-Admin-Password-123');
-  await page.getByRole('button', { name: 'Sign in' }).click();
-  await page.getByRole('heading', { name: 'Patients' }).waitFor();
+  await page.getByLabel('使用者名稱').fill('fictional-admin');
+  await page.getByLabel('密碼').fill('Fictional-Admin-Password-123');
+  await page.getByRole('button', { name: '登入' }).click();
+  await page.getByRole('heading', { name: '病人清單' }).waitFor();
 }
 
 test('login failure is shown and one submit sends one request', { timeout: 30_000 }, async (t) => {
@@ -27,10 +27,10 @@ test('login failure is shown and one submit sends one request', { timeout: 30_00
   });
 
   await page.goto(app.baseUrl);
-  await page.getByLabel('Username').fill('fictional-admin');
-  await page.getByLabel('Password').fill('Fictional-Admin-Password-123');
-  await page.getByRole('button', { name: 'Sign in' }).click();
-  await page.getByRole('alert').getByText('Fictional login failure.').waitFor();
+  await page.getByLabel('使用者名稱').fill('fictional-admin');
+  await page.getByLabel('密碼').fill('Fictional-Admin-Password-123');
+  await page.getByRole('button', { name: '登入' }).click();
+  await page.getByRole('alert').getByText('登入失敗或已逾時，請確認帳號密碼或重新登入。').waitFor();
   await page.waitForLoadState('networkidle');
 
   assert.equal(loginRequests, 1, 'one Sign in action should send one login request');
@@ -65,42 +65,42 @@ test('browser supports patient search, offline draft retry, medication tracking,
 
   await signIn(page, app.baseUrl);
 
-  await page.getByRole('button', { name: 'Add Patient' }).click();
+  await page.getByRole('button', { name: '新增病人' }).click();
   await page.getByLabel('MRN').fill('000E2E-001');
-  await page.getByLabel('Name', { exact: true }).fill('Fictional Browser Patient');
-  await page.getByLabel('Phone').fill('TEST-E2E-001');
-  await page.getByRole('button', { name: 'Create Patient' }).click();
+  await page.getByLabel('姓名', { exact: true }).fill('Fictional Browser Patient');
+  await page.getByLabel('電話').fill('TEST-E2E-001');
+  await page.getByRole('button', { name: '建立病人' }).click();
   await page.getByRole('heading', { name: 'Fictional Browser Patient' }).waitFor();
 
-  await page.getByRole('button', { name: 'Start Episode' }).click();
-  await page.getByRole('button', { name: 'New Encounter' }).waitFor();
-  await page.getByRole('button', { name: 'New Encounter' }).click();
+  await page.getByRole('button', { name: '開始療程' }).click();
+  await page.getByRole('button', { name: '新增追蹤紀錄' }).waitFor();
+  await page.getByRole('button', { name: '新增追蹤紀錄' }).click();
   const encounterCard = page.locator('[data-encounter-card]').first();
   const saveStatus = encounterCard.locator('.save-status');
   const weight = encounterCard.locator('[data-draft-field="weightKg"]');
   await weight.waitFor();
   await weight.fill('123.4');
   await page.waitForFunction(() => [...document.querySelectorAll('.save-status')]
-    .some((node) => node.textContent.includes('Saved ·')));
+    .some((node) => node.textContent.includes('已儲存 ·')));
 
   await context.setOffline(true);
   await page.waitForFunction(() => !navigator.onLine);
   await encounterCard.locator('[data-draft-field="waistCm"]').fill('89.2');
   await page.waitForFunction(() => [...document.querySelectorAll('.save-status')]
-    .some((node) => node.textContent.includes('Offline · changes not saved')));
+    .some((node) => node.textContent.includes('離線 · 變更尚未儲存')));
   await context.setOffline(false);
   await page.waitForFunction(() => navigator.onLine);
   await page.waitForFunction(() => [...document.querySelectorAll('.save-status')]
-    .some((node) => node.textContent.includes('Saved ·')));
+    .some((node) => node.textContent.includes('已儲存 ·')));
 
   await encounterCard.locator('[data-change-type]').selectOption('change');
-  await page.getByRole('button', { name: 'Add medication' }).click();
+  await page.getByRole('button', { name: '新增藥品' }).click();
   const medicationRow = encounterCard.locator('[data-medication-row]').first();
   await medicationRow.locator('[data-medication-code]').selectOption('wegovy');
   await medicationRow.locator('[data-dose-mode]').selectOption('1.7');
   await page.waitForFunction(() => [...document.querySelectorAll('.save-status')]
-    .some((node) => node.textContent.includes('Medication record saved')));
-  await page.getByRole('button', { name: 'Refresh history' }).click();
+    .some((node) => node.textContent.includes('用藥紀錄已儲存')));
+  await page.getByRole('button', { name: '重新整理紀錄' }).click();
 
   const trendPoints = await page.locator('.summary-trends canvas').first().getAttribute('data-points');
   assert.ok(JSON.parse(trendPoints).some((point) => point.value === 123.4));
@@ -108,11 +108,11 @@ test('browser supports patient search, offline draft retry, medication tracking,
 
   await encounterCard.locator('summary').click();
   await page.locator('[id^="physician-"]').selectOption(String(doctor.id));
-  await page.getByRole('button', { name: 'Complete Encounter' }).click();
+  await page.getByRole('button', { name: '完成追蹤紀錄' }).click();
   await page.locator('[data-encounter-card] .badge.completed').waitFor();
 
-  await page.getByRole('button', { name: '← Patient list' }).click();
-  await page.getByLabel('Search').fill('000E2E-001');
+  await page.getByRole('button', { name: '← 返回病人清單' }).click();
+  await page.getByLabel('搜尋').fill('000E2E-001');
   const patientRow = page.getByRole('row').filter({ hasText: '000E2E-001' });
   await patientRow.waitFor();
   assert.match(await patientRow.innerText(), /Fictional Browser Patient/);
@@ -151,15 +151,15 @@ test('browser conflict reloads the latest Encounter without saving stale edits o
   const secondWeight = secondCard.locator('[data-draft-field="weightKg"]');
   await firstWeight.fill('100');
   await firstPage.waitForFunction(() => [...document.querySelectorAll('.save-status')]
-    .some((node) => node.textContent.includes('Saved ·')));
+    .some((node) => node.textContent.includes('已儲存 ·')));
 
   await secondWeight.fill('98');
   const secondStatus = secondCard.locator('.save-status');
-  await secondStatus.getByText('Reload Encounter').waitFor();
-  assert.match(await secondStatus.innerText(), /Conflict/);
+  await secondStatus.getByText('重新載入追蹤紀錄').waitFor();
+  assert.match(await secondStatus.innerText(), /資料衝突/);
   assert.equal(await secondWeight.isDisabled(), true);
 
-  await secondStatus.getByRole('button', { name: 'Reload Encounter' }).click();
+  await secondStatus.getByRole('button', { name: '重新載入追蹤紀錄' }).click();
   await secondPage.waitForFunction(() =>
     document.querySelector('[data-encounter-card] [data-draft-field="weightKg"]')?.value === '100');
   const reloadedWeight = secondPage.locator('[data-encounter-card] [data-draft-field="weightKg"]');

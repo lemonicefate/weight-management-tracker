@@ -65,6 +65,12 @@ Admin can perform normal workflow actions plus:
 - manage backup/restore;
 - inspect audit information.
 
+### User interface language
+
+The clinic-facing browser interface uses Traditional Chinese for Taiwan (zh-TW), including navigation, workflow labels, guidance, validation feedback and administration pages. Standard clinical abbreviations and names such as BMI, MRN, HIS and SC, medication trade names, and vendor/source identifiers may remain in their conventional form.
+
+Localization is presentation-only. It must not change stored values, API codes, medication names, source fields, or clinical workflow behavior. User-entered names and free-text notes are displayed as entered.
+
 ## 4. Patient registry
 
 The home screen is a master list of weight-management patients, not a daily appointment list.
@@ -448,3 +454,9 @@ Not in the first implementation:
 - existing HOANBOY-linked history can be migrated without creating duplicate Patient identities;
 - historical links remain traceable;
 - production does not require two separate Patient databases after cutover.
+
+### Localization
+
+- the clinic-facing browser interface declares zh-TW and presents navigation, workflow, status, validation and administration text in Traditional Chinese;
+- standard medical abbreviations, units, medication trade names and source identifiers retain their established forms where appropriate;
+- localization does not change stored values, API codes or clinical workflow behavior.

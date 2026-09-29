@@ -14,7 +14,7 @@
   --amber-soft: #fff4df;
   --red: #a33a3a;
   --red-soft: #fdeeee;
-  font-family: Inter, "Segoe UI", "Noto Sans", Arial, sans-serif;
+  font-family: Inter, "Noto Sans TC", "Microsoft JhengHei UI", "Microsoft JhengHei", "PingFang TC", sans-serif;
   background: var(--canvas);
   color: var(--ink);
 }
@@ -58,13 +58,13 @@ textarea { min-height: 82px; resize: vertical; }
 label { display: grid; gap: 6px; color: #41545d; font-size: .9rem; font-weight: 600; }
 
 h1, h2, h3, h4, p { margin-top: 0; }
-h1 { font-size: clamp(1.65rem, 3vw, 2.25rem); letter-spacing: -.035em; margin-bottom: 8px; }
-h2 { font-size: 1.3rem; margin-bottom: 6px; letter-spacing: -.02em; }
+h1 { font-size: clamp(1.65rem, 3vw, 2.25rem); letter-spacing: 0; margin-bottom: 8px; }
+h2 { font-size: 1.3rem; margin-bottom: 6px; letter-spacing: 0; }
 h3 { font-size: 1.05rem; margin-bottom: 6px; }
 h4 { font-size: .92rem; margin-bottom: 8px; }
 p { line-height: 1.55; }
 small, .muted { color: var(--muted); }
-.eyebrow { color: var(--teal); font-size: .74rem; font-weight: 750; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 10px; }
+.eyebrow { color: var(--teal); font-size: .74rem; font-weight: 750; letter-spacing: .02em; margin-bottom: 10px; }
 
 .login-shell { min-height: 100vh; display: grid; place-items: center; padding: 24px; background: radial-gradient(ellipse at 50% 0, #dcefed, transparent 60%), var(--canvas); }
 .login-card { width: min(100%, 440px); background: var(--paper); padding: 34px; border: 1px solid var(--line); border-radius: 18px; box-shadow: 0 18px 60px #24464a14; }
@@ -103,7 +103,7 @@ small, .muted { color: var(--muted); }
 .toolbar label { flex: 1; max-width: 480px; }
 .table-wrap { overflow-x: auto; }
 table { width: 100%; border-collapse: collapse; text-align: left; }
-th { color: var(--muted); font-size: .76rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; padding: 11px 10px; border-bottom: 1px solid var(--line); }
+th { color: var(--muted); font-size: .76rem; font-weight: 700; padding: 11px 10px; border-bottom: 1px solid var(--line); }
 td { padding: 13px 10px; border-bottom: 1px solid #edf1f2; font-size: .91rem; }
 tr:last-child td { border-bottom: 0; }
 .link-button { padding: 0; border: 0; color: var(--blue); background: transparent; font-weight: 700; text-align: left; }
@@ -135,7 +135,7 @@ tr:last-child td { border-bottom: 0; }
 .encounter-card > summary::-webkit-details-marker { display: none; }
 .encounter-card[open] > summary { border-bottom: 1px solid var(--line); }
 .encounter-content { padding: 16px; display: grid; gap: 18px; }
-.section-label { color: var(--muted); font-size: .74rem; font-weight: 750; letter-spacing: .08em; text-transform: uppercase; margin: 0 0 8px; }
+.section-label { color: var(--muted); font-size: .74rem; font-weight: 750; margin: 0 0 8px; }
 .save-status { color: var(--muted); font-size: .82rem; min-height: 1.3em; }
 .save-status.saved { color: var(--teal-dark); }
 .save-status.error { color: var(--red); }
